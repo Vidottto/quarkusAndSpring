@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "ALUNO")
-public class AlunoModel extends PanacheEntityBase{
+public class AlunoModel {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

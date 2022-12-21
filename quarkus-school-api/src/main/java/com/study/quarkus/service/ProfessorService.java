@@ -4,6 +4,7 @@ import com.study.quarkus.dto.ProfessorRequest;
 import com.study.quarkus.dto.ProfessorResponse;
 import com.study.quarkus.mapper.ProfessorMapper;
 import com.study.quarkus.model.ProfessorModel;
+import com.study.quarkus.repository.ProfessorRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
 
@@ -23,15 +25,18 @@ import javax.ws.rs.core.Response;
 public class ProfessorService {
     private final ProfessorMapper mapper;
 
+    @Inject
+    ProfessorRepository repository;
+
     public List<ProfessorResponse> retrieveAll() {
         log.info("Listing professors");
-        final List<ProfessorModel> listOfProfessors = ProfessorModel.listAll();
+        final List<ProfessorModel> listOfProfessors = repository.listAll();
         return mapper.toResponse(listOfProfessors);
     }
 
     public ProfessorResponse getProfessorById(int id) {
         log.info("Listing professor de id {}", id);
-        final Optional<ProfessorModel> professor = ProfessorModel.findByIdOptional(id);
+        final Optional<ProfessorModel> professor = repository.findByIdOptional(id);
         if(professor.isPresent()) {
             return mapper.toResponse(professor.get());
         }
@@ -48,7 +53,7 @@ public class ProfessorService {
                 .name(professorRequest.getName())
                 .build();
 
-        entity.persistAndFlush();
+        repository.persistAndFlush(entity);
 
         return mapper.toResponse(entity);
     }
@@ -56,16 +61,16 @@ public class ProfessorService {
     @Transactional
     public Response delete(int id) {
         
-        log.info("Deletando professor - {}", ProfessorModel.findByIdOptional(id).get());
+        log.info("Deletando professor - {}", repository.findByIdOptional(id).get());
 
-        ProfessorModel.findByIdOptional(id).ifPresent(PanacheEntityBase::delete);
+        repository.deleteById(id);
 
         return Response.ok().build();
     }
 
     @Transactional
     public ProfessorResponse update(int id, String name) {
-        Optional<ProfessorModel> professor = ProfessorModel.findByIdOptional(id);
+        Optional<ProfessorModel> professor = repository.findByIdOptional(id);
 
         String oldNome = professor.get().getName();
         log.info("Updating professor id - {}, nome de {} para {}", id, oldNome, name);
@@ -74,7 +79,7 @@ public class ProfessorService {
         if (professor.isPresent()) {
             var entity = professor.get();
             entity.setName(name);
-            entity.persistAndFlush();
+            repository.persistAndFlush(entity);
             return mapper.toResponse(entity);
         }
 

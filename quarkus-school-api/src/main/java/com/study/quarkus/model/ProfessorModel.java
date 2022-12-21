@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "PROFESSOR")
-public class ProfessorModel extends PanacheEntityBase {
+public class ProfessorModel {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

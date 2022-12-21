@@ -1,5 +1,6 @@
 package com.study.quarkus.resource;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.PathParam;
 
 import com.study.quarkus.dto.ProfessorRequest;
@@ -36,7 +38,8 @@ public class ProfessorResource {
     public Response listProfessors(){
         final List<ProfessorResponse> response = service.retrieveAll();
 
-        return Response.ok(response).build();
+        return Response.status(Status.OK).entity(response).build();
+        
     }
 
     @GET
@@ -47,7 +50,8 @@ public class ProfessorResource {
     }
 
     @DELETE
-    public Response deleteProfessor(int id) {
+    @Path("/{professor_id}")
+    public Response deleteProfessor(@PathParam("professor_id") int id) {
         service.delete(id);
         return Response.ok().build();
     }
