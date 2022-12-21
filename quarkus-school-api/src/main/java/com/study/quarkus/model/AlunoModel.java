@@ -13,18 +13,18 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "PROFESSOR")
-public class ProfessorModel extends PanacheEntityBase {
+@Table(name = "ALUNO")
+public class AlunoModel extends PanacheEntityBase{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "professor_id")
-    private  Integer id;
+    @Column(name = "aluno_id", nullable = false)
+    private int id;
 
-    @Column(name = "professor_name", nullable = false)
-    private String name;
+    @Column(name = "aluno_nome", nullable = false)
+    private String nome;
+    
 
-    public String getName() {
-        return this.name;
-    }
+
+
 }

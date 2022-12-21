@@ -1,66 +1,72 @@
 package com.study.quarkus.service;
 // package com.study.quarkus;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+import javax.ws.rs.core.Response;
+
 // import java.util.HashMap;
-// import java.util.Map;
+import java.util.List;
 
 // import javax.enterprise.context.ApplicationScoped;
 // import javax.ws.rs.core.Response;
-// import javax.ws.rs.core.Response.Status;
 
-// import com.study.quarkus.dto.Aluno;
+import com.study.quarkus.dto.AlunoRequest;
+import com.study.quarkus.dto.AlunoResponse;
+import com.study.quarkus.mapper.AlunoMapper;
+import com.study.quarkus.model.AlunoModel;
 
-// import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 
-// @ApplicationScoped
-// @Slf4j
-// public class AlunoService {
-//     Long id = 0L;
-//     Map<Long, Aluno> alunos = new HashMap<>();
+@ApplicationScoped
+@Slf4j
+public class AlunoService {
 
-//     public Response listarAlunos(){
-//         log.info("Lista de alunos\n\n");
+    @Inject
+    AlunoMapper mapper;
 
-//         return Response.ok(alunos).build();
-//     }
+    public Response listarAlunos(){
+        log.info("Lista de alunos\n\n");
+        List<AlunoModel> alunos = AlunoModel.listAll();
 
-//     public Response getAlunoById(String strId){
-//         log.info("Aluno de id {} listado\n\n", strId);
+        return Response.ok(alunos).build();
+    }
 
-//         return Response.ok(alunos
-//                 .get(Long.parseLong(strId)))
-//                 .build();
-//     }
+    public AlunoResponse getAlunoById(int id){
+        log.info("Aluno de id {} listado\n\n", id);
+        AlunoModel aluno = AlunoModel.findById(id);
+        return mapper.toResponse(aluno);
+    }
+    
+    @Transactional
+    public AlunoResponse registraAluno(AlunoRequest aluno) {
+        
+        log.info("Aluno registrado ::: {}", aluno);
+        AlunoModel entity = AlunoModel
+                .builder()
+                .nome(aluno.getNome())
+                .build();
 
-//     public Response registraAluno(Aluno aluno) {
-//         String nome = aluno.getNome();
-//         int matricula = aluno.getMatricula();
-//         log.info("Aluno registrado ::: nome: {}, matrícula: {}\n\n", nome, matricula);
-//         alunos.put(id, aluno); id++;
+        entity.persistAndFlush();
+        return mapper.toResponse(entity);
+    }
 
-//         return Response.status(Status.CREATED).build();
-//     }
+    @Transactional
+    public AlunoResponse modifcaAluno(int id, String novoNome) {
+        AlunoModel aluno = AlunoModel.findById(id);
+        log.info("Mudando nome ::: aluno de id {} ::: nome velho {} ::: nome novo {}", id, aluno.getNome(), novoNome);
+        aluno.setNome(novoNome);
+        return mapper.toResponse(aluno);
+    }
 
-//     public Response modifcaAluno(String idNome) {
-//         String idAluno = idNome.split(", ")[0];
-//         String nome = idNome.split(", ")[1];
-//         Aluno aluno = alunos.get(Long.valueOf(idAluno));
-//         String oldNome = aluno.getNome();
-//         aluno.setNome(nome);
-//         int matricula = aluno.getMatricula();
-//         log.info("Aluno modificado ::: matrícula: {}, nome anterior: {}, nome atualizado:{}\n\n", matricula, oldNome, nome);
-
-//         return Response.status(Status.OK).build();
-//     }
-
-//     public Response deletaAluno(Long id) {
-//         Aluno aluno = alunos.get(id);
-//         int matricula = aluno.getMatricula();
-//         String nome = aluno.getNome();
-//         alunos.remove(id, aluno);
-//         log.info("Aluno excluído ::: matrícula: {}, nome:{}\n\n", matricula, nome);  
-//         return Response.status(Status.OK).build();
-//     }
+    @Transactional
+    public AlunoResponse deletaAluno(int id) {
+        AlunoModel aluno = AlunoModel.findById(id);
+        log.info("Deletado da DB o aluno {}", aluno);
+        aluno.delete();
+        return mapper.toResponse(aluno);
+    }
 
     
-// }
+}
