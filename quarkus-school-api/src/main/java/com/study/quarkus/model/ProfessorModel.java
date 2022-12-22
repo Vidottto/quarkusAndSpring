@@ -1,6 +1,5 @@
 package com.study.quarkus.model;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

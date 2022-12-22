@@ -1,15 +1,11 @@
 package com.study.quarkus.service;
-// package com.study.quarkus;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
 
-// import java.util.HashMap;
 import java.util.List;
-
-
 
 import com.study.quarkus.dto.AlunoRequest;
 import com.study.quarkus.dto.AlunoResponse;

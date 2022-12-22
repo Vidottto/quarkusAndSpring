@@ -6,7 +6,6 @@ import com.study.quarkus.mapper.ProfessorMapper;
 import com.study.quarkus.model.ProfessorModel;
 import com.study.quarkus.repository.ProfessorRepository;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

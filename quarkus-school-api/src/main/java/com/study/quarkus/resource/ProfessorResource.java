@@ -1,6 +1,5 @@
 package com.study.quarkus.resource;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,7 +19,7 @@ import com.study.quarkus.dto.ProfessorResponse;
 import com.study.quarkus.service.ProfessorService;
 
 @Consumes(MediaType.APPLICATION_JSON)
-@Path("/professores")
+@Path("/professor")
 public class ProfessorResource {
     private final ProfessorService service;
 
