@@ -14,8 +14,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.PathParam;
 
-import com.study.quarkus.dto.ProfessorRequest;
-import com.study.quarkus.dto.ProfessorResponse;
+import com.study.quarkus.dto.Professor.ProfessorRequest;
+import com.study.quarkus.dto.Professor.ProfessorResponse;
 import com.study.quarkus.service.ProfessorService;
 
 @Consumes(MediaType.APPLICATION_JSON)

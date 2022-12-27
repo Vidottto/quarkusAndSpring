@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "PROFESSOR")
-public class ProfessorModel {
+public class Professor {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,4 @@ public class ProfessorModel {
     @Column(name = "professor_name", nullable = false)
     private String name;
 
-    public String getName() {
-        return this.name;
-    }
 }

@@ -1,8 +1,8 @@
 package com.study.quarkus.mapper;
 
-import com.study.quarkus.dto.AlunoRequest;
-import com.study.quarkus.dto.AlunoResponse;
-import com.study.quarkus.model.AlunoModel;
+import com.study.quarkus.dto.Aluno.AlunoRequest;
+import com.study.quarkus.dto.Aluno.AlunoResponse;
+import com.study.quarkus.model.Aluno;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class AlunoMapper {
-    public List<AlunoResponse> toResponse(List<AlunoModel> listOfAlunos) {
+    public List<AlunoResponse> toResponse(List<Aluno> listOfAlunos) {
 
         if (Objects.isNull(listOfAlunos)) return new ArrayList<>();
 
@@ -21,7 +21,7 @@ public class AlunoMapper {
                 .collect(Collectors.toList());
     }
 
-    public AlunoResponse toResponse(AlunoModel entity) {
+    public AlunoResponse toResponse(Aluno entity) {
 
         if (Objects.isNull(entity)) return null;
 
@@ -31,11 +31,11 @@ public class AlunoMapper {
                     .build();
     }
 
-    public AlunoModel toEntity(AlunoRequest request) {
+    public Aluno toEntity(AlunoRequest request) {
          if (Objects.isNull(request)) {
              return null;
          } else {
-             return AlunoModel.builder()
+             return Aluno.builder()
                      .nome(request.getNome())
                      .build();
          }

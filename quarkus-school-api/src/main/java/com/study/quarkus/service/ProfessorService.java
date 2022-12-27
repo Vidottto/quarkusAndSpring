@@ -1,9 +1,9 @@
 package com.study.quarkus.service;
 
-import com.study.quarkus.dto.ProfessorRequest;
-import com.study.quarkus.dto.ProfessorResponse;
+import com.study.quarkus.dto.Professor.ProfessorRequest;
+import com.study.quarkus.dto.Professor.ProfessorResponse;
 import com.study.quarkus.mapper.ProfessorMapper;
-import com.study.quarkus.model.ProfessorModel;
+import com.study.quarkus.model.Professor;
 import com.study.quarkus.repository.ProfessorRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -29,13 +29,13 @@ public class ProfessorService {
 
     public List<ProfessorResponse> retrieveAll() {
         log.info("Listing professors");
-        final List<ProfessorModel> listOfProfessors = repository.listAll();
+        final List<Professor> listOfProfessors = repository.listAll();
         return mapper.toResponse(listOfProfessors);
     }
 
     public ProfessorResponse getProfessorById(int id) {
         log.info("Listing professor de id {}", id);
-        final Optional<ProfessorModel> professor = repository.findByIdOptional(id);
+        final Optional<Professor> professor = repository.findByIdOptional(id);
         if(professor.isPresent()) {
             return mapper.toResponse(professor.get());
         }
@@ -47,8 +47,8 @@ public class ProfessorService {
 
         log.info("Saving professor - {}", professorRequest);
 
-        ProfessorModel entity =
-                ProfessorModel.builder()
+        Professor entity =
+                Professor.builder()
                 .name(professorRequest.getName())
                 .build();
 
@@ -69,7 +69,7 @@ public class ProfessorService {
 
     @Transactional
     public ProfessorResponse update(int id, String name) {
-        Optional<ProfessorModel> professor = repository.findByIdOptional(id);
+        Optional<Professor> professor = repository.findByIdOptional(id);
 
         String oldNome = professor.get().getName();
         log.info("Updating professor id - {}, nome de {} para {}", id, oldNome, name);

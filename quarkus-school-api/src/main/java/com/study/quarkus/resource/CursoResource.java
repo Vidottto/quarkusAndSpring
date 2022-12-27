@@ -14,8 +14,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.MediaType;
 
-import com.study.quarkus.dto.CursoRequest;
-import com.study.quarkus.dto.CursoResponse;
+import com.study.quarkus.dto.Curso.CursoRequest;
+import com.study.quarkus.dto.Curso.CursoResponse;
 import com.study.quarkus.service.CursoService;
 
 

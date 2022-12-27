@@ -1,4 +1,4 @@
-package com.study.quarkus.dto;
+package com.study.quarkus.dto.Curso;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

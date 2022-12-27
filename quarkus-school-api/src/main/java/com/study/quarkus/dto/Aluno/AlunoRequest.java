@@ -1,4 +1,4 @@
-package com.study.quarkus.dto;
+package com.study.quarkus.dto.Aluno;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

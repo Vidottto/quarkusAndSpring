@@ -1,11 +1,15 @@
 package com.study.quarkus.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.persistence.ManyToOne;
+
 
 @Builder
 @Data
@@ -13,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "CURSO")
-public class CursoModel {
+public class Curso {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +29,10 @@ public class CursoModel {
 
     @Column(name = "curso_duracao", nullable = false)
     private int duracao;
+
+    // @OneToMany
+    // @JoinColumn(name = "curso_disciplinas")
+    // private List<DisciplinaModel> disciplinas;
+
     
 }

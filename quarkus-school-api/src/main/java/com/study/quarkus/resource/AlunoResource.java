@@ -12,8 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.study.quarkus.dto.AlunoRequest;
-import com.study.quarkus.dto.AlunoResponse;
+import com.study.quarkus.dto.Aluno.AlunoRequest;
+import com.study.quarkus.dto.Aluno.AlunoResponse;
 import com.study.quarkus.service.AlunoService;
 
 

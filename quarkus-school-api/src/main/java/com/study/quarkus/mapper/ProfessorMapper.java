@@ -1,8 +1,8 @@
 package com.study.quarkus.mapper;
 
-import com.study.quarkus.dto.ProfessorRequest;
-import com.study.quarkus.dto.ProfessorResponse;
-import com.study.quarkus.model.ProfessorModel;
+import com.study.quarkus.dto.Professor.ProfessorRequest;
+import com.study.quarkus.dto.Professor.ProfessorResponse;
+import com.study.quarkus.model.Professor;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class ProfessorMapper {
-    public List<ProfessorResponse> toResponse(List<ProfessorModel> listOfProfessors) {
+    public List<ProfessorResponse> toResponse(List<Professor> listOfProfessors) {
 
         if (Objects.isNull(listOfProfessors)) return new ArrayList<>();
 
@@ -21,7 +21,7 @@ public class ProfessorMapper {
                 .collect(Collectors.toList());
     }
 
-    public ProfessorResponse toResponse(ProfessorModel entity) {
+    public ProfessorResponse toResponse(Professor entity) {
 
         if (Objects.isNull(entity)) return null;
 
@@ -31,11 +31,11 @@ public class ProfessorMapper {
                     .build();
     }
 
-    public ProfessorModel toEntity(ProfessorRequest request) {
+    public Professor toEntity(ProfessorRequest request) {
          if (Objects.isNull(request)) {
              return null;
          } else {
-             return ProfessorModel.builder()
+             return Professor.builder()
                      .name(request.getName())
                      .build();
          }
