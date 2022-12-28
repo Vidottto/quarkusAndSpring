@@ -3,6 +3,8 @@ package com.study.quarkus.resource;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -29,13 +31,14 @@ public class ProfessorResource {
     }
 
     @POST
-    public ProfessorResponse registraProfessor(ProfessorRequest professor) {
-        return service.save(professor);
+    public Response registraProfessor(@Valid ProfessorRequest professor) {
+        ProfessorResponse response = service.save(professor);
+        return Response.ok(response).build();
     }
 
     @GET
     public Response listProfessors(){
-        final List<ProfessorResponse> response = service.retrieveAll();
+        List<ProfessorResponse> response = service.retrieveAll();
 
         return Response.status(Status.OK).entity(response).build();
         
@@ -57,8 +60,9 @@ public class ProfessorResource {
 
     @PUT
     @Path("/update/{professor_id}")
-    public ProfessorResponse update(@PathParam("professor_id") int id, String name) {
+    public Response update(@PathParam("professor_id") int id, @NotBlank String name) {
         ProfessorResponse professor = service.update(id, name);
-        return professor;
+        
+        return Response.ok(professor).build();
     }
 }

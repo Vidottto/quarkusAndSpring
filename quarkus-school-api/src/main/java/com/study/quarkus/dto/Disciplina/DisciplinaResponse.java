@@ -20,6 +20,6 @@ public class DisciplinaResponse {
     private String name;
     private Professor professor;
     private int creditos;
-    private Curso curso;
+    private String curso;
 
 }

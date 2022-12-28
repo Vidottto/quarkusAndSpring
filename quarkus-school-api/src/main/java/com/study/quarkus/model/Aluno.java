@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+
 @Builder
 @Data
 @AllArgsConstructor
@@ -17,13 +18,13 @@ public class Aluno {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "aluno_id", nullable = false)
     private int id;
 
-    @Column(name = "aluno_nome", nullable = false)
     private String nome;
     
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tutor")
+    private Professor tutor;
 
 
 }

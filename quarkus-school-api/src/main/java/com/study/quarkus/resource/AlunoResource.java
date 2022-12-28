@@ -1,6 +1,7 @@
 package com.study.quarkus.resource;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -11,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.study.quarkus.dto.Aluno.AlunoRequest;
 import com.study.quarkus.dto.Aluno.AlunoResponse;
@@ -38,21 +40,27 @@ AlunoService service;
     }
 
     @POST
-    public AlunoResponse registraAluno(AlunoRequest aluno) {
-        return service.registraAluno(aluno);
+    public Response registraAluno(@Valid AlunoRequest aluno) {
+        AlunoResponse response = service.registraAluno(aluno);
+        return Response.status(Status.CREATED).entity(response).build();
     }
 
     @PUT
-    @Path("/{aluno_id}")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public AlunoResponse modifcaAluno(@PathParam("aluno_id") int id, String nome) {
+    @Path("/{aluno_id}/nome")
+    public AlunoResponse modifcaNomeAluno(@PathParam("aluno_id") int id, String nome) {
         return service.modifcaAluno(id, nome);
     }
 
     @DELETE
-    @Path("/update/{aluno_id}")
+    @Path("/{aluno_id}")
     public AlunoResponse deletaAluno(@PathParam("aluno_id")int id) {
         return service.deletaAluno(id);
     }
 
+    @PUT
+    @Path("/{aluno_id}/tutor")
+    public Response modifcaTutorAluno(@PathParam("aluno_id") int id, int idNovoTutor) {
+        AlunoResponse response = service.modifcaTutorAluno(id, idNovoTutor);
+        return Response.ok(response).build();
+    }
 }

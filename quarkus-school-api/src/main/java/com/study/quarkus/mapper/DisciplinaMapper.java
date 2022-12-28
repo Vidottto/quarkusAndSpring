@@ -3,6 +3,7 @@ package com.study.quarkus.mapper;
 import com.study.quarkus.dto.Disciplina.DisciplinaRequest;
 import com.study.quarkus.dto.Disciplina.DisciplinaResponse;
 import com.study.quarkus.model.Disciplina;
+import com.study.quarkus.repository.CursoRepository;
 import com.study.quarkus.repository.ProfessorRepository;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -18,6 +19,9 @@ public class DisciplinaMapper {
 
     @Inject
     ProfessorRepository professorRepository;
+
+    @Inject
+    CursoRepository cursoRepository;
 
     public List<DisciplinaResponse> toResponse(List<Disciplina> listOfDisciplinas) {
 
@@ -37,6 +41,7 @@ public class DisciplinaMapper {
                     .name(entity.getName())
                     .professor(entity.getProfessor())
                     .creditos(entity.getCreditos())
+                    .curso(entity.getCurso().getDescricao())
                     .build();
     }
 
@@ -48,6 +53,7 @@ public class DisciplinaMapper {
                      .name(request.getName())
                      .professor(professorRepository.findById(request.getProfessor()))
                      .creditos(request.getCreditos())
+                     .curso(cursoRepository.findById(request.getCurso()))
                      .build();
          }
     }

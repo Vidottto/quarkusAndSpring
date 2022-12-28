@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Builder
@@ -17,10 +19,11 @@ public class Professor {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "professor_id")
     private  Integer id;
 
-    @Column(name = "professor_name", nullable = false)
     private String name;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tutor")
+    private List<Aluno> tutorados;
 
 }

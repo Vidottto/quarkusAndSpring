@@ -26,7 +26,6 @@ public class Disciplina {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "disciplina_id", nullable = false)
     private int id;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -34,12 +33,10 @@ public class Disciplina {
     public Professor professor;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "curso_id")
+    @JoinColumn(name = "curso")
     private Curso curso;
 
-    @Column(name = "disciplina_creditos", nullable = false)
     private int creditos;
 
-    @Column(name = "disciplina_nome", nullable = false)
     private String name;
 }

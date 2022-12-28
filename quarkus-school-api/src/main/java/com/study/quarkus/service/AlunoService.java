@@ -11,7 +11,9 @@ import com.study.quarkus.dto.Aluno.AlunoRequest;
 import com.study.quarkus.dto.Aluno.AlunoResponse;
 import com.study.quarkus.mapper.AlunoMapper;
 import com.study.quarkus.model.Aluno;
+import com.study.quarkus.model.Professor;
 import com.study.quarkus.repository.AlunoRepository;
+import com.study.quarkus.repository.ProfessorRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +26,9 @@ public class AlunoService {
 
     @Inject
     AlunoRepository repository;
+
+    @Inject
+    ProfessorRepository professorRepository;
 
     public Response listarAlunos(){
         log.info("Lista de alunos\n\n");
@@ -64,6 +69,16 @@ public class AlunoService {
         Aluno aluno = repository.findById(id);
         log.info("Deletado da DB o aluno {}", aluno);
         repository.delete(aluno);
+        return mapper.toResponse(aluno);
+    }
+
+    @Transactional
+    public AlunoResponse modifcaTutorAluno(int id, int idNovoTutor) {
+        Aluno aluno = repository.findById(id);
+        Professor tutor = professorRepository.findById(idNovoTutor);
+        aluno.setTutor(tutor);
+        repository.persistAndFlush(aluno);
+        
         return mapper.toResponse(aluno);
     }
 

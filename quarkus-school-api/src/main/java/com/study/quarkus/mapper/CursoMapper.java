@@ -26,11 +26,23 @@ public class CursoMapper {
 
         if (Objects.isNull(entity)) return null;
 
+        if(!Objects.isNull(entity.getDisciplinas())) {
+            return  CursoResponse.builder()
+            .id(entity.getId())
+            .disciplinas(entity.getDisciplinas().stream()
+                                .map(d -> d.getName())
+                                .collect(Collectors.toList()))
+            .descricao(entity.getDescricao())
+            .duracao(entity.getDuracao())
+            .build();
+        } else {
         return  CursoResponse.builder()
-                    .id(entity.getId())
-                    .descricao(entity.getDescricao())
-                    .duracao(entity.getDuracao())
-                    .build();
+            .id(entity.getId())
+            .descricao(entity.getDescricao())
+            .duracao(entity.getDuracao())
+            .build();
+        }
+   
     }
 
     public Curso toEntity(CursoRequest request) {
@@ -39,7 +51,7 @@ public class CursoMapper {
          } else {
              return Curso.builder()
                      .descricao(request.getDescricao())
-                    //  .duracao(request.getDuracao())
+                     .duracao(request.getDuracao())
                      .build();
          }
     }

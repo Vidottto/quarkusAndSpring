@@ -12,6 +12,7 @@ import com.study.quarkus.dto.Curso.CursoRequest;
 import com.study.quarkus.dto.Curso.CursoResponse;
 import com.study.quarkus.mapper.CursoMapper;
 import com.study.quarkus.model.Curso;
+import com.study.quarkus.model.Disciplina;
 import com.study.quarkus.repository.CursoRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,12 @@ public class CursoService {
     CursoRepository repository;
 
     private final CursoMapper mapper;
+
+    public List<String> getDisciplinasByIdCurso(int id) {
+        Curso entity = repository.findById(id);
+        List<String> response = mapper.toResponse(entity).getDisciplinas();
+        return response ;
+    }
 
     @Transactional
     public CursoResponse cadastraCurso(CursoRequest curso) {
@@ -48,8 +55,16 @@ public class CursoService {
 
     }
 
+    public CursoResponse getCursoById(int id) {
+        log.info("Listando curso de id {}", id);
+
+        Curso curso = repository.findById(id);
+        return mapper.toResponse(curso);
+
+    }
+
     @Transactional
-    public CursoResponse update(int id, String name) {
+    public CursoResponse updateDescricao(int id, String name) {
         Optional<Curso> curso = repository.findByIdOptional(id);
 
         String oldNome = curso.get().getDescricao();

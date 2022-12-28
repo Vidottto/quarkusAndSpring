@@ -1,5 +1,9 @@
 package com.study.quarkus.dto.Professor;
 
+import java.util.List;
+
+import javax.validation.constraints.NotBlank;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +17,9 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties
 public class ProfessorRequest {
     
+    @NotBlank
     private String name;
+
+    private List<Integer> idTutorados;
 
 }

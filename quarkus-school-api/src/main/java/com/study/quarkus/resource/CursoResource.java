@@ -3,6 +3,8 @@ package com.study.quarkus.resource;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -29,7 +31,7 @@ public class CursoResource {
     CursoService service;
     
     @POST
-    public CursoResponse cadastraCurso(CursoRequest curso){
+    public CursoResponse cadastraCurso(@Valid CursoRequest curso){
         
         return service.cadastraCurso(curso);
         
@@ -43,11 +45,27 @@ public class CursoResource {
 
     }
 
+    @GET
+    @Path("/{curso_id}")
+    public Response getCursoById(@PathParam("curso_id") int id){
+        CursoResponse response = service.getCursoById(id);
+
+        return Response.status(Status.OK).entity(response).build();
+
+    }
+
     @PUT
     @Path("/update/{curso_id}")
-    public CursoResponse update(@PathParam("curso_id") int id, String descricao) {
-        CursoResponse curso = service.update(id, descricao);
+    public CursoResponse updateDescricao(@PathParam("curso_id") int id, @NotBlank String descricao) {
+        CursoResponse curso = service.updateDescricao(id, descricao);
         return curso;
+    }
+
+    @GET
+    @Path("{curso_id}/disciplinas")
+    public Response getDisciplinasByIdCurso(@PathParam("curso_id") int id){
+        List<String> listDisciplinas = service.getDisciplinasByIdCurso(id);
+        return Response.ok(listDisciplinas).build();
     }
 }
 
