@@ -9,7 +9,9 @@ import java.util.List;
 
 import com.study.quarkus.dto.Aluno.AlunoRequest;
 import com.study.quarkus.dto.Aluno.AlunoResponse;
+import com.study.quarkus.dto.Professor.ProfessorResponse;
 import com.study.quarkus.mapper.AlunoMapper;
+import com.study.quarkus.mapper.ProfessorMapper;
 import com.study.quarkus.model.Aluno;
 import com.study.quarkus.model.Professor;
 import com.study.quarkus.repository.AlunoRepository;
@@ -30,16 +32,20 @@ public class AlunoService {
     @Inject
     ProfessorRepository professorRepository;
 
-    public Response listarAlunos(){
-        log.info("Lista de alunos\n\n");
-        List<Aluno> alunos = repository.listAll();
+    @Inject
+    ProfessorMapper professorMapper;
 
-        return Response.ok(alunos).build();
+    public List<AlunoResponse> listarAlunos(){
+        log.info("Lista de alunos\n\n");
+        List<AlunoResponse> listAlunos = mapper.toResponse(repository.listAll());
+
+        return listAlunos;
     }
 
     public AlunoResponse getAlunoById(int id){
         log.info("Aluno de id {} listado\n\n", id);
         Aluno aluno = repository.findById(id);
+
         return mapper.toResponse(aluno);
     }
     
@@ -53,6 +59,7 @@ public class AlunoService {
                 .build();
 
         repository.persistAndFlush(entity);
+
         return mapper.toResponse(entity);
     }
 
@@ -61,6 +68,7 @@ public class AlunoService {
         Aluno aluno = repository.findById(id);
         log.info("Mudando nome ::: aluno de id {} ::: nome velho {} ::: nome novo {}", id, aluno.getNome(), novoNome);
         aluno.setNome(novoNome);
+
         return mapper.toResponse(aluno);
     }
 
@@ -69,6 +77,7 @@ public class AlunoService {
         Aluno aluno = repository.findById(id);
         log.info("Deletado da DB o aluno {}", aluno);
         repository.delete(aluno);
+        
         return mapper.toResponse(aluno);
     }
 
@@ -80,6 +89,13 @@ public class AlunoService {
         repository.persistAndFlush(aluno);
         
         return mapper.toResponse(aluno);
+    }
+
+    public ProfessorResponse getTutorByAlunoId(int id) {
+        Aluno aluno = repository.findById(id);
+        ProfessorResponse tutor = professorMapper.toResponse(aluno.getTutor());
+
+        return tutor;
     }
 
     

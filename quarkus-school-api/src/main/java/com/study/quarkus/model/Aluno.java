@@ -24,7 +24,7 @@ public class Aluno {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor")
-    private Professor tutor;
+    private Professor tutor;    
 
 
 }

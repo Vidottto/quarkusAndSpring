@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties
 public class AlunoRequest {
     
-    @NotBlank
+    @NotBlank(message = "O nome do aluno deve constar no cadastro")
     private String nome;
     
     private int tutorId;

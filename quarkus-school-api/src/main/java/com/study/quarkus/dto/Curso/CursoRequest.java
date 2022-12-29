@@ -17,10 +17,10 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties
 public class CursoRequest {
 
-    @NotBlank
+    @NotBlank(message = "O nome do curso deve constar no cadastro")
     private String descricao;
 
-    @Positive
+    @Positive(message = "A duração do curso deve ser maior que 0 horas")
     private int duracao;
 
 }

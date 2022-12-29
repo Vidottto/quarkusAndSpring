@@ -1,5 +1,7 @@
 package com.study.quarkus.resource;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -16,6 +18,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.study.quarkus.dto.Aluno.AlunoRequest;
 import com.study.quarkus.dto.Aluno.AlunoResponse;
+import com.study.quarkus.dto.Professor.ProfessorResponse;
 import com.study.quarkus.service.AlunoService;
 
 
@@ -30,37 +33,55 @@ AlunoService service;
 
     @GET
     public Response getAlunos() {
-        return service.listarAlunos();
+        List<AlunoResponse> listAlunos = service.listarAlunos();
+
+        return Response.ok(listAlunos).build();
     }
     
     @GET
-    @Path("{aluno_id}")
-    public AlunoResponse getAlunoById(@PathParam("aluno_id") int id) {
-        return service.getAlunoById(id);  
+    @Path("/{id}")
+    public Response getAlunoById(@PathParam("id") int id) {
+        AlunoResponse response = service.getAlunoById(id);
+
+        return Response.ok(response).build();  
+    }
+
+    @GET
+    @Path("/{id}/tutor")
+    public Response getTutorByIdAluno(@PathParam("id")int id) {
+        ProfessorResponse response = service.getTutorByAlunoId(id);
+
+        return Response.ok(response).build();
     }
 
     @POST
     public Response registraAluno(@Valid AlunoRequest aluno) {
         AlunoResponse response = service.registraAluno(aluno);
+
         return Response.status(Status.CREATED).entity(response).build();
     }
 
     @PUT
-    @Path("/{aluno_id}/nome")
-    public AlunoResponse modifcaNomeAluno(@PathParam("aluno_id") int id, String nome) {
-        return service.modifcaAluno(id, nome);
+    @Path("/{id}")
+    public Response modifcaNomeAluno(@PathParam("id") int id, String nome) {
+        AlunoResponse response = service.modifcaAluno(id, nome);
+        
+        return Response.ok(response).build();
     }
 
     @DELETE
-    @Path("/{aluno_id}")
-    public AlunoResponse deletaAluno(@PathParam("aluno_id")int id) {
-        return service.deletaAluno(id);
+    @Path("/{id}")
+    public Response deletaAluno(@PathParam("id")int id) {
+        AlunoResponse response = service.deletaAluno(id);
+        
+        return Response.ok(response).build();
     }
 
     @PUT
-    @Path("/{aluno_id}/tutor")
-    public Response modifcaTutorAluno(@PathParam("aluno_id") int id, int idNovoTutor) {
+    @Path("/{id}")
+    public Response modifcaTutorAluno(@PathParam("id") int id, int idNovoTutor) {
         AlunoResponse response = service.modifcaTutorAluno(id, idNovoTutor);
+
         return Response.ok(response).build();
     }
 }

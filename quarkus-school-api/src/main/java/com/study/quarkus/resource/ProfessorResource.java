@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.PathParam;
 
+import com.study.quarkus.dto.Aluno.AlunoResponse;
 import com.study.quarkus.dto.Professor.ProfessorRequest;
 import com.study.quarkus.dto.Professor.ProfessorResponse;
 import com.study.quarkus.service.ProfessorService;
@@ -33,36 +34,65 @@ public class ProfessorResource {
     @POST
     public Response registraProfessor(@Valid ProfessorRequest professor) {
         ProfessorResponse response = service.save(professor);
+
         return Response.ok(response).build();
     }
 
     @GET
-    public Response listProfessors(){
+    public Response listProfessores(){
         List<ProfessorResponse> response = service.retrieveAll();
 
-        return Response.status(Status.OK).entity(response).build();
+        return Response.ok(response).build();
         
     }
 
     @GET
-    @Path("/{professor_id}")
-    public Response getProfessorById(@PathParam("professor_id") int id) {
+    @Path("/{id}")
+    public Response getProfessorById(@PathParam("id") int id) {
         ProfessorResponse professor = service.getProfessorById(id);
+
         return Response.ok(professor).build();
     }
 
     @DELETE
-    @Path("/{professor_id}")
-    public Response deleteProfessor(@PathParam("professor_id") int id) {
+    @Path("/{id}")
+    public Response deleteProfessor(@PathParam("id") int id) {
         service.delete(id);
+        
         return Response.ok().build();
     }
 
     @PUT
-    @Path("/update/{professor_id}")
-    public Response update(@PathParam("professor_id") int id, @NotBlank String name) {
+    @Path("/update/{id}/nome")
+    public Response update(@PathParam("id") int id, @NotBlank String name) {
         ProfessorResponse professor = service.update(id, name);
         
         return Response.ok(professor).build();
+    }
+
+    @GET
+    @Path("/{id}/tutorados")
+    public Response getTutoradosByProfessorId(@PathParam("id")int id){
+        List<AlunoResponse> listTutorados = service.getTutoradosByProfessorId(id);
+
+        return Response.ok(listTutorados).build();
+
+    }
+
+    @PUT
+    @Path("/{id}/update/tutorados")
+    public Response updateTutoradoByIdProfessor(@PathParam("id")int id, int idTutorado){
+        ProfessorResponse response = service.updateTutoradoByIdProfessor(id, idTutorado);
+          
+        return Response.ok(response).build();
+        
+    }
+
+    @DELETE
+    @Path("/{id}/deleteTutorado/{tutorado_id}")
+    public Response deleteTutoradoByIdProfessor(@PathParam("id")int id, @PathParam("tutorado_id")int tutoradoId){
+        ProfessorResponse response = service.deleteTutoradoByIdProfessor(id, tutoradoId);
+
+        return Response.ok(response).build();
     }
 }

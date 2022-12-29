@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties
 public class ProfessorRequest {
     
-    @NotBlank
+    @NotBlank(message = "O nome do professor deve constar no cadastro")
     private String name;
 
     private List<Integer> idTutorados;

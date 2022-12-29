@@ -2,6 +2,7 @@ package com.study.quarkus.mapper;
 
 import com.study.quarkus.dto.Professor.ProfessorRequest;
 import com.study.quarkus.dto.Professor.ProfessorResponse;
+import com.study.quarkus.dto.Professor.ProfessorResponse.ProfessorResponseBuilder;
 import com.study.quarkus.model.Professor;
 import com.study.quarkus.repository.AlunoRepository;
 
@@ -32,27 +33,24 @@ public class ProfessorMapper {
 
         if (Objects.isNull(entity)) return null;
 
+        ProfessorResponseBuilder professorResponse = ProfessorResponse.builder()
+                                                        .id(entity.getId())
+                                                        .name(entity.getName());
+
         if (!Objects.isNull(entity.getTutorados())) {
-            return  ProfessorResponse.builder()
-                    .id(entity.getId())
-                    .tutorados(entity.getTutorados().stream()
-                        .map(t -> t.getNome())
-                        .collect(Collectors.toList()))
-                    .name(entity.getName())
-                    .build();
-        } else {
-        return  ProfessorResponse.builder()
-                    .id(entity.getId())
-                    .name(entity.getName())
-                    .build();
-        }
+            professorResponse.tutorados(entity.getTutorados().stream()
+                                .map(t -> t.getNome())
+                                .collect(Collectors.toList()));
+        } 
+        return professorResponse.build();
     }
 
     public Professor toEntity(ProfessorRequest request) {
-         if (Objects.isNull(request)) {
-             return null;
-         } else {
-            if (Objects.isNull(request.getIdTutorados())) {
+        if (Objects.isNull(request)) {
+            return null;
+        }
+        
+        if (Objects.isNull(request.getIdTutorados())) {
              return Professor.builder()
                      .name(request.getName())
                      .build();
@@ -66,4 +64,4 @@ public class ProfessorMapper {
             }
          }
     }
-}
+

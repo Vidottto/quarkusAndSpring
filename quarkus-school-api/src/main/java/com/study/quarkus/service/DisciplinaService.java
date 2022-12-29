@@ -1,10 +1,10 @@
 package com.study.quarkus.service;
 
+import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.POST;
 import javax.ws.rs.core.Response;
 
 import com.study.quarkus.dto.Disciplina.DisciplinaRequest;
@@ -50,9 +50,8 @@ public class DisciplinaService {
     }
 
     @Transactional
-    public Response deletaDisciplinaById(int id) {
+    public void deletaDisciplinaById(int id) {
         repository.deleteById(id);
-        return Response.ok().build();
     }
 
     @Transactional
@@ -63,6 +62,17 @@ public class DisciplinaService {
         disciplina.setProfessor(professorNovo);
         
         return mapper.toResponse(disciplina);
+    }
+
+    public List<DisciplinaResponse> getDisciplinas() {
+        List<Disciplina> listDisciplinas = repository.listAll();
+
+        return mapper.toResponse(listDisciplinas);
+    }
+
+    public DisciplinaResponse getDisciplinaById(int id) {
+        DisciplinaResponse response = mapper.toResponse(repository.findById(id));
+        return response;
     }
 
 }

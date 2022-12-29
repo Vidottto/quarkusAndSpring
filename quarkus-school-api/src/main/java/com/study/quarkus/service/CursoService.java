@@ -81,5 +81,10 @@ public class CursoService {
         return new CursoResponse();
     }
 
+    @Transactional
+    public void deleteCurso(int id) {
+        repository.delete(repository.findById(id));
+    }
+
     
 }

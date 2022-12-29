@@ -17,12 +17,12 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties
 public class DisciplinaRequest {
     
-    @NotBlank
+    @NotBlank(message = "É necessário incluir um nome para a disciplina")
     private String name;
 
     private Integer professor;
 
-    @Positive
+    @Positive(message = "O número de créditos deve ser maior que 0")
     private int creditos;
 
     private int curso;

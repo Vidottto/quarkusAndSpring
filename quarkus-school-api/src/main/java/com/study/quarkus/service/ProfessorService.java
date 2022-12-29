@@ -1,22 +1,26 @@
 package com.study.quarkus.service;
 
+import com.study.quarkus.dto.Aluno.AlunoResponse;
 import com.study.quarkus.dto.Professor.ProfessorRequest;
 import com.study.quarkus.dto.Professor.ProfessorResponse;
+import com.study.quarkus.mapper.AlunoMapper;
 import com.study.quarkus.mapper.ProfessorMapper;
+import com.study.quarkus.model.Aluno;
 import com.study.quarkus.model.Professor;
 import com.study.quarkus.repository.ProfessorRepository;
+import com.study.quarkus.repository.AlunoRepository;
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.core.Response;
 
 @ApplicationScoped
 @Slf4j
@@ -27,15 +31,22 @@ public class ProfessorService {
     @Inject
     ProfessorRepository repository;
 
+    @Inject
+    AlunoMapper alunoMapper;
+    
+    @Inject
+    AlunoRepository alunoRepository;
+
     public List<ProfessorResponse> retrieveAll() {
         log.info("Listing professors");
-        final List<Professor> listOfProfessors = repository.listAll();
-        return mapper.toResponse(listOfProfessors);
+        List<Professor> listProfessores = repository.listAll();
+
+        return mapper.toResponse(listProfessores);
     }
 
     public ProfessorResponse getProfessorById(int id) {
         log.info("Listing professor de id {}", id);
-        final Optional<Professor> professor = repository.findByIdOptional(id);
+        Optional<Professor> professor = repository.findByIdOptional(id);
         if(professor.isPresent()) {
             return mapper.toResponse(professor.get());
         }
@@ -58,13 +69,12 @@ public class ProfessorService {
     }
 
     @Transactional
-    public Response delete(int id) {
+    public void delete(int id) {
         
         log.info("Deletando professor - {}", repository.findByIdOptional(id).get());
 
         repository.deleteById(id);
 
-        return Response.ok().build();
     }
 
     @Transactional
@@ -84,6 +94,34 @@ public class ProfessorService {
 
         return new ProfessorResponse();
     }
+
+    public List<AlunoResponse> getTutoradosByProfessorId(int id) {
+        Professor tutor = repository.findById(id);
+        List<AlunoResponse> listTutorados = alunoMapper.toResponse(tutor.getTutorados());
+        
+        return listTutorados;
+    }
+
+    @Transactional
+    public ProfessorResponse updateTutoradoByIdProfessor(int id, int idTutorado) {
+        Professor tutor = repository.findById(id);
+        Aluno tutorado = alunoRepository.findById(idTutorado);
+        tutor.getTutorados().add(tutorado);
+        repository.persistAndFlush(tutor);
+        
+        return mapper.toResponse(tutor);
+    }
+
+    @Transactional
+    public ProfessorResponse deleteTutoradoByIdProfessor(int id, int tutoradoId) {
+        Professor tutor = repository.findById(id);
+        tutor.getTutorados().stream()
+                    .filter(t -> t.getId() != tutoradoId)
+                    .collect(Collectors.toList());
+        
+        return null;
+    }
+
 
 
 }
