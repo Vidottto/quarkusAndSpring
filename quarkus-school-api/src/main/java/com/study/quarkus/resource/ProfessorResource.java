@@ -63,7 +63,7 @@ public class ProfessorResource {
     }
 
     @PUT
-    @Path("/update/{id}/nome")
+    @Path("/{id}/update/nome")
     public Response update(@PathParam("id") int id, @NotBlank String name) {
         ProfessorResponse professor = service.update(id, name);
         
@@ -89,8 +89,8 @@ public class ProfessorResource {
     }
 
     @DELETE
-    @Path("/{id}/deleteTutorado/{tutorado_id}")
-    public Response deleteTutoradoByIdProfessor(@PathParam("id")int id, @PathParam("tutorado_id")int tutoradoId){
+    @Path("/{id}/delete-tutorado/")
+    public Response deleteTutoradoByIdProfessor(@PathParam("id")int id, int tutoradoId){
         ProfessorResponse response = service.deleteTutoradoByIdProfessor(id, tutoradoId);
 
         return Response.ok(response).build();

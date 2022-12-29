@@ -54,7 +54,7 @@ public class CursoResource {
     }
 
     @PUT
-    @Path("/update/{id}")
+    @Path("/update/{id}/descricao")
     public Response updateDescricao(@PathParam("id") int id, @NotBlank String descricao) {
         CursoResponse response = service.updateDescricao(id, descricao);
 

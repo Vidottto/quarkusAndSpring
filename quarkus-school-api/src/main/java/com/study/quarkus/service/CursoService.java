@@ -82,6 +82,8 @@ public class CursoService {
 
     @Transactional
     public void deleteCurso(int id) {
+        Curso curso = repository.findById(id);
+        curso.getDisciplinas().forEach(d -> d.setCurso(null));
         repository.delete(repository.findById(id));
     }
 

@@ -15,8 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -72,7 +72,10 @@ public class ProfessorService {
     public void delete(int id) {
         
         log.info("Deletando professor - {}", repository.findByIdOptional(id).get());
-
+        Professor professor = repository.findById(id);
+        if (Objects.nonNull(professor.getTutorados()) || !professor.getTutorados().isEmpty()) {
+            professor.getTutorados().forEach(a -> a.setTutor(null));
+        }
         repository.deleteById(id);
 
     }
@@ -106,6 +109,8 @@ public class ProfessorService {
     public ProfessorResponse updateTutoradoByIdProfessor(int id, int idTutorado) {
         Professor tutor = repository.findById(id);
         Aluno tutorado = alunoRepository.findById(idTutorado);
+        tutorado.setTutor(tutor);
+        alunoRepository.persistAndFlush(tutorado);
         tutor.getTutorados().add(tutorado);
         repository.persistAndFlush(tutor);
         
@@ -114,10 +119,9 @@ public class ProfessorService {
 
     @Transactional
     public ProfessorResponse deleteTutoradoByIdProfessor(int id, int tutoradoId) {
-        Professor tutor = repository.findById(id);
-        tutor.getTutorados().stream()
-                    .filter(t -> t.getId() != tutoradoId)
-                    .collect(Collectors.toList());
+        Aluno tutorado = alunoRepository.findById(tutoradoId);
+        tutorado.setTutor(null);
+
         
         return null;
     }

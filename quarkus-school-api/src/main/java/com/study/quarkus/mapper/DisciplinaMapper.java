@@ -39,7 +39,7 @@ public class DisciplinaMapper {
         return  DisciplinaResponse.builder()
                     .id(entity.getId())
                     .name(entity.getName())
-                    .professor(entity.getProfessor())
+                    .professor(entity.getProfessor().getName())
                     .creditos(entity.getCreditos())
                     .curso(entity.getCurso().getDescricao())
                     .build();

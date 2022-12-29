@@ -28,8 +28,16 @@ import com.study.quarkus.service.AlunoService;
 public class AlunoResource {
 
 
-@Inject
-AlunoService service;
+    @Inject
+    AlunoService service;
+
+
+    @POST
+    public Response registraAluno(@Valid AlunoRequest aluno) {
+        AlunoResponse response = service.registraAluno(aluno);
+
+        return Response.status(Status.CREATED).entity(response).build();
+    }
 
     @GET
     public Response getAlunos() {
@@ -54,15 +62,10 @@ AlunoService service;
         return Response.ok(response).build();
     }
 
-    @POST
-    public Response registraAluno(@Valid AlunoRequest aluno) {
-        AlunoResponse response = service.registraAluno(aluno);
 
-        return Response.status(Status.CREATED).entity(response).build();
-    }
 
     @PUT
-    @Path("/{id}")
+    @Path("/{id}/nome")
     public Response modifcaNomeAluno(@PathParam("id") int id, String nome) {
         AlunoResponse response = service.modifcaAluno(id, nome);
         
@@ -72,13 +75,13 @@ AlunoService service;
     @DELETE
     @Path("/{id}")
     public Response deletaAluno(@PathParam("id")int id) {
-        AlunoResponse response = service.deletaAluno(id);
+        service.deletaAluno(id);
         
-        return Response.ok(response).build();
+        return Response.ok().build();
     }
 
     @PUT
-    @Path("/{id}")
+    @Path("/{id}/tutor")
     public Response modifcaTutorAluno(@PathParam("id") int id, int idNovoTutor) {
         AlunoResponse response = service.modifcaTutorAluno(id, idNovoTutor);
 
