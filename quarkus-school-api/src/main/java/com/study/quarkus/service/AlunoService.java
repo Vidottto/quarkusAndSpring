@@ -3,7 +3,6 @@ package com.study.quarkus.service;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.core.Response;
 
 import java.util.List;
 

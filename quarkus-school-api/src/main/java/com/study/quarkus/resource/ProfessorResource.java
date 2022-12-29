@@ -35,7 +35,7 @@ public class ProfessorResource {
     public Response registraProfessor(@Valid ProfessorRequest professor) {
         ProfessorResponse response = service.save(professor);
 
-        return Response.ok(response).build();
+        return Response.status(Status.CREATED).entity(response).build();
     }
 
     @GET

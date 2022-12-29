@@ -12,7 +12,6 @@ import com.study.quarkus.dto.Curso.CursoRequest;
 import com.study.quarkus.dto.Curso.CursoResponse;
 import com.study.quarkus.mapper.CursoMapper;
 import com.study.quarkus.model.Curso;
-import com.study.quarkus.model.Disciplina;
 import com.study.quarkus.repository.CursoRepository;
 
 import lombok.RequiredArgsConstructor;
