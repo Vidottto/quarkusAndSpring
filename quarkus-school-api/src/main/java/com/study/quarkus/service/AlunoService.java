@@ -1,7 +1,6 @@
 package com.study.quarkus.service;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 
 import java.util.List;
@@ -16,23 +15,19 @@ import com.study.quarkus.model.Professor;
 import com.study.quarkus.repository.AlunoRepository;
 import com.study.quarkus.repository.ProfessorRepository;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @ApplicationScoped
 @Slf4j
+@RequiredArgsConstructor
 public class AlunoService {
 
-    @Inject
-    AlunoMapper mapper;
 
-    @Inject
-    AlunoRepository repository;
-
-    @Inject
-    ProfessorRepository professorRepository;
-
-    @Inject
-    ProfessorMapper professorMapper;
+    private final AlunoMapper mapper;
+    private final AlunoRepository repository;
+    private final ProfessorMapper professorMapper;
+    private final ProfessorRepository professorRepository;
 
     public List<AlunoResponse> listarAlunos(){
         log.info("Lista de alunos\n\n");

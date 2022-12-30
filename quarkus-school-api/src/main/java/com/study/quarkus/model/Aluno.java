@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 
 @Builder
@@ -20,6 +21,7 @@ public class Aluno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank(message = "O nome do aluno deve constar no cadastro")
     private String nome;
     
     @ManyToOne(fetch = FetchType.LAZY)

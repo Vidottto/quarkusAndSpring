@@ -1,5 +1,8 @@
 package com.study.quarkus.dto.Aluno;
 
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -13,6 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties
+@Produces(MediaType.APPLICATION_JSON)
 public class AlunoResponse {
     
     private int id;
